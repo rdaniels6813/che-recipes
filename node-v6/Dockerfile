@@ -4,16 +4,16 @@ ENV JAVA_HOME /usr/lib/jvm/java-9-openjdk-amd64/
 ENV NODE_VERSION 6.5.0
 ENV NODE_PATH /usr/local/lib/node_modules
 
-RUN sudo apt-get update && \
- sudo apt-get upgrade -y && \
- sudo apt-get install -y curl build-essential libssl-dev libkrb5-dev gcc make ruby-full rubygems-integration python openjdk-9-jdk-headless unzip bash sudo git subversion openssh-server && \
- sudo mkdir /var/run/sshd && \
- sudo sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-RUN sudo gem install sass compass && \
-    sudo apt-get clean && \
-    sudo apt-get -y autoremove && \
-    sudo apt-get -y clean && \
-    sudo rm -rf /var/lib/apt/lists/* && \
+RUN apt-get update && \
+ apt-get upgrade -y && \
+ apt-get install -y curl build-essential libssl-dev libkrb5-dev gcc make ruby-full rubygems-integration python openjdk-9-jdk-headless unzip bash sudo git subversion openssh-server && \
+ mkdir /var/run/sshd && \
+ sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+RUN gem install sass compass && \
+    apt-get clean && \
+    apt-get -y autoremove && \
+    apt-get -y clean && \
+    rm -rf /var/lib/apt/lists/* && \
     set -ex \
     && for key in \
   0xb63b535a4c206ca9 \
@@ -30,11 +30,11 @@ RUN sudo gem install sass compass && \
   && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
   && gpg --verify SHASUMS256.txt.asc \
   && grep "node-v$NODE_VERSION-linux-x64.tar.gz\$" SHASUMS256.txt.asc | sha256sum -c - \
-  && sudo tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
-  && sudo rm "node-v$NODE_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc
+  && tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
+  && rm "node-v$NODE_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc
 
-RUN sudo npm install -g npm@latest
-RUN sudo npm install -g typings gulp bower grunt grunt-cli angular-cli aurelia-cli
+RUN npm install -g npm@latest
+RUN npm install -g typings gulp bower grunt grunt-cli angular-cli aurelia-cli
 
 EXPOSE 3000 5000 9000
 
