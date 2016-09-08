@@ -47,7 +47,7 @@ RUN sudo npm install -g npm@latest
 RUN sudo npm install -g typings gulp bower grunt grunt-cli angular-cli aurelia-cli
 RUN sudo /usr/bin/ssh-keygen -A
 
-EXPOSE 3000 5000 9000
+EXPOSE 3000 3001 4200 5000 8080 9000
 
 WORKDIR /projects
 
