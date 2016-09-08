@@ -1,19 +1,17 @@
-FROM ubuntu
+FROM codenvy/ubuntu_jre
 
-ENV JAVA_HOME /usr/lib/jvm/java-9-openjdk-amd64/
 ENV NODE_VERSION 6.5.0
 ENV NODE_PATH /usr/local/lib/node_modules
 
-RUN apt-get update && \
- apt-get upgrade -y && \
- apt-get install -y curl build-essential libssl-dev libkrb5-dev gcc make ruby-full rubygems-integration python openjdk-9-jdk-headless unzip bash sudo git subversion openssh-server && \
- mkdir /var/run/sshd && \
- sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
-RUN gem install sass compass && \
-    apt-get clean && \
-    apt-get -y autoremove && \
-    apt-get -y clean && \
-    rm -rf /var/lib/apt/lists/* && \
+RUN sudo apt-get update && \
+ sudo apt-get upgrade -y && \
+ sudo apt-get install -y curl build-essential libssl-dev libkrb5-dev gcc make ruby-full rubygems-integration python unzip bash sudo git subversion && \
+ sudo sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+RUN sudo gem install sass compass && \
+    sudo apt-get clean && \
+    sudo apt-get -y autoremove && \
+    sudo apt-get -y clean && \
+    sudo rm -rf /var/lib/apt/lists/* && \
     set -ex \
     && for key in \
   0xb63b535a4c206ca9 \
@@ -24,21 +22,21 @@ RUN gem install sass compass && \
       71DCFD284A79C3B38668286BC97EC7A07EDE3FC1 \
       DD8F2338BAE7501E3DD5AC78C273792F7D83545D \
     ; do \
-      gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
+      sudo gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$key"; \
     done && \
-  mkdir -p /home/user && cd /home/user && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
-  && curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
-  && gpg --verify SHASUMS256.txt.asc \
-  && grep "node-v$NODE_VERSION-linux-x64.tar.gz\$" SHASUMS256.txt.asc | sha256sum -c - \
-  && tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
-  && rm "node-v$NODE_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc
+  sudo mkdir -p /home/user && cd /home/user && sudo curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-x64.tar.gz" \
+  && sudo curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/SHASUMS256.txt.asc" \
+  && sudo gpg --verify SHASUMS256.txt.asc \
+  && sudo grep "node-v$NODE_VERSION-linux-x64.tar.gz\$" SHASUMS256.txt.asc | sha256sum -c - \
+  && sudo tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
+  && sudo rm "node-v$NODE_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc
 
 RUN cd $(npm root -g)/npm \
-  && npm install fs-extra \
-  && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js
+  && sudo npm install fs-extra \
+  && sudo sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js
 
-RUN npm install -g npm@latest
-RUN npm install -g typings gulp bower grunt grunt-cli angular-cli aurelia-cli
+RUN sudo npm install -g npm@latest
+RUN sudo npm install -g typings gulp bower grunt grunt-cli angular-cli aurelia-cli
 
 EXPOSE 3000 5000 9000
 
