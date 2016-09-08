@@ -51,4 +51,4 @@ EXPOSE 3000 5000 9000
 
 WORKDIR /projects
 
-CMD /usr/sbin/sshd -D && tail -f /dev/null
+CMD sudo /usr/sbin/sshd -D && tail -f /dev/null
