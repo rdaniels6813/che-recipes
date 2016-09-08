@@ -33,6 +33,10 @@ RUN gem install sass compass && \
   && tar -xzf "node-v$NODE_VERSION-linux-x64.tar.gz" -C /usr/local --strip-components=1 \
   && rm "node-v$NODE_VERSION-linux-x64.tar.gz" SHASUMS256.txt.asc
 
+RUN cd $(npm root -g)/npm \
+  && npm install fs-extra \
+  && sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js
+
 RUN npm install -g npm@latest
 RUN npm install -g typings gulp bower grunt grunt-cli angular-cli aurelia-cli
 
