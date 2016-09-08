@@ -37,6 +37,7 @@ RUN cd $(npm root -g)/npm \
 
 RUN sudo npm install -g npm@latest
 RUN sudo npm install -g typings gulp bower grunt grunt-cli angular-cli aurelia-cli
+RUN sudo /usr/bin/ssh-keygen -A
 
 EXPOSE 3000 5000 9000
 
