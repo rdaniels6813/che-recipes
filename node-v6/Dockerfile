@@ -44,11 +44,10 @@ RUN cd $(npm root -g)/npm \
   && sudo sed -i -e s/graceful-fs/fs-extra/ -e s/fs\.rename/fs.move/ ./lib/utils/rename.js
 
 RUN sudo npm install -g npm@latest
-RUN sudo npm install -g typings gulp bower grunt grunt-cli angular-cli aurelia-cli
-RUN sudo /usr/bin/ssh-keygen -A
+RUN sudo npm install -g typings gulp bower grunt grunt-cli angular-cli aurelia-cli yeoman-generator yo generator-angular generator-karma generator-webapp
 
 EXPOSE 3000 3001 4200 5000 8080 9000
 
 WORKDIR /projects
 
-CMD sudo /usr/sbin/sshd -D && tail -f /dev/null
+CMD tail -f /dev/null
